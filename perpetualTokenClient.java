@@ -36,6 +36,7 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
 {
 	private static InputStream in;
 	
+	
 	public static void main(String[] args) {
 		String token = "gVijK1YarW//cwre/uIy4ZS+ghpXja5AivOSDCIvCKdv1ZmtkL71ITrPOSGzPy0IjG+AQS9IQq6txyJ/dah6ND1GEvoCVXxVHgqMwyLVm3TSZ7P9WNdDfDEwPm3GnPdG+l/E3c+3fxyECT6yNlW7lSWpESn3jj4E+UuPlJ97yCI=";
         String operation = "Generate";
@@ -68,6 +69,10 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
         String operation=request.operation;
         String apiUrl=request.apiUrl;
         String requestXML=request.requestXML;
+        System.out.println(token);
+        System.out.println(operation);
+        System.out.println(apiUrl);
+        System.out.println(requestXML);
         
         try
         {
