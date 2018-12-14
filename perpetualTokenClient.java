@@ -1,6 +1,5 @@
 package perpetualTokenClient;
 
-//import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;//newly added
@@ -21,7 +20,6 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-//import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -36,7 +34,7 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
 {
 	private static InputStream in;
 	
-	
+	/*
 	public static void main(String[] args) {
 		String token = "gVijK1YarW//cwre/uIy4ZS+ghpXja5AivOSDCIvCKdv1ZmtkL71ITrPOSGzPy0IjG+AQS9IQq6txyJ/dah6ND1GEvoCVXxVHgqMwyLVm3TSZ7P9WNdDfDEwPm3GnPdG+l/E3c+3fxyECT6yNlW7lSWpESn3jj4E+UuPlJ97yCI=";
         String operation = "Generate";
@@ -49,18 +47,16 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
 		System.out.println("This is the response XML");
 		System.out.println(response.body);
 	}
+	*/
 	
     public ResponseClass handleRequest(RequestClass request, Context context)
     {
-    	Integer debug = 1;
              
-        if (debug == 1)
-        {
-            System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.SimpleLog");
-            System.setProperty("org.apache.commons.logging.simplelog.showdatetime","true");
-            System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http","DEBUG");
-            System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire","DEBUG");
-        }
+        //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.SimpleLog");
+        //System.setProperty("org.apache.commons.logging.simplelog.showdatetime","true");
+        //System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http","DEBUG");
+        //System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire","DEBUG");
+            
         //String token = "gVijK1YarW//cwre/uIy4ZS+ghpXja5AivOSDCIvCKdv1ZmtkL71ITrPOSGzPy0IjG+AQS9IQq6txyJ/dah6ND1GEvoCVXxVHgqMwyLVm3TSZ7P9WNdDfDEwPm3GnPdG+l/E3c+3fxyECT6yNlW7lSWpESn3jj4E+UuPlJ97yCI=";
         //String operation = "Generate";
         //String xmlRequestFile = "test.xml";
@@ -69,17 +65,9 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
         String operation=request.operation;
         String apiUrl=request.apiUrl;
         String requestXML=request.requestXML;
-        System.out.println(token);
-        System.out.println(operation);
-        System.out.println(apiUrl);
-        System.out.println(requestXML);
         
         try
         {
-                if (debug == 1)
-                {
-                    System.out.println("Token Data  :" + token);
-                }
                 BasicHttpClientConnectionManager clientConnectionManager = new BasicHttpClientConnectionManager(getRegistry());
                 CloseableHttpClient apiClient = HttpClients.custom().setConnectionManager(clientConnectionManager).build();
                 HttpPost httppost = new HttpPost(apiUrl + operation);
@@ -100,17 +88,12 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
  
                 try
                 {
-                    System.out.println(httppost);
+
                     CloseableHttpResponse responseFromPost = apiClient.execute(httppost);
-                              
-                    if (debug == 1)
-                    {
-                        System.out.println(responseFromPost.toString());
-                    }
                               
                     in = responseFromPost.getEntity().getContent();
                     String body = IOUtils.toString(in, "UTF-8");
-                    System.out.println(body);
+                    //System.out.println(body);
                     ResponseClass resp = new ResponseClass();
                     resp.setStatusCode(200);
                     resp.setBody(body);
@@ -119,7 +102,6 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
                 }
                 catch (ClientProtocolException e)
                 {
-                    System.out.println(e);
                     ResponseClass resp = new ResponseClass();
                     resp.setStatusCode(400);
                     resp.setBody("ClientProtocolException");
@@ -128,7 +110,6 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
                 }
                 catch (IOException e)
                 {
-                    System.out.println(e);
                     ResponseClass resp = new ResponseClass();
                     resp.setStatusCode(500);
                     resp.setBody("IOException");
@@ -138,7 +119,6 @@ public class perpetualTokenClient implements RequestHandler<RequestClass, Respon
         }
         catch (Exception nsae)
         {
-            System.out.println("NoSuchAlgorithmException in InvokeAPIFromFile: " + nsae.getLocalizedMessage());
             ResponseClass resp = new ResponseClass();
             resp.setStatusCode(400);
             resp.setBody("NoSuchAlgorithmException");
